@@ -70,9 +70,6 @@ struct ContentView: View {
                 .background(.black.opacity(0.5))
                 .clipShape(.capsule)
                 Spacer()
-                
-                
-                
                 HStack {
                     Spacer()
                     Button{
