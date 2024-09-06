@@ -72,6 +72,7 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Spacer()
+                    
                     Button{
                         showExchangeInfo.toggle()
                         print("showExchangeInfo value: \(showExchangeInfo)")
@@ -82,6 +83,9 @@ struct ContentView: View {
                             .foregroundStyle(.white)
                     }
                     .padding(.trailing)
+                    .sheet(isPresented: $showExchangeInfo) {
+                        ExchangeInfo()
+                    }
                 }
             }
         }
