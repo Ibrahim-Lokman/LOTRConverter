@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+   @State  var  showExchangeInfo = false
     var body: some View {
         ZStack{
             //
@@ -52,17 +53,29 @@ struct ContentView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 35)
-                          
+                            
                             
                         }
                         Text("Textfield").foregroundStyle(.white)
                     }
                 }
                 Spacer()
-                Image(systemName: "info.circle.fill")
-                    .font(.largeTitle)
-                    .foregroundStyle(.white)
-                    .
+        
+                
+                
+                HStack {
+                    Spacer()
+                    Button{
+                        showExchangeInfo.toggle()
+                        print("showExchangeInfo value: \(showExchangeInfo)")
+                        
+                    } label: {
+                        Image(systemName: "info.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundStyle(.white)
+                    }
+                    .padding(.trailing)
+                }
             }
         }
     }
