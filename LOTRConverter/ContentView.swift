@@ -10,8 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @State  var  showExchangeInfo = false
     @State var  showSelectedCurrency = false
+    
     @State var leftAmount = ""
     @State var rightAmount = ""
+    
     @State var leftCurrency = Currency.silverPiece
     @State var rightCurrency = Currency.goldPiece
 
@@ -54,6 +56,7 @@ struct ContentView: View {
                         TextField("Amount", text: $leftAmount)
                             .textFieldStyle(.roundedBorder)
                             .focused($leftTyping)
+                            .keyboardType(.decimalPad)
                             .onChange(of: leftAmount) {
                                 if leftTyping == true {
                                     rightAmount = leftCurrency
@@ -64,6 +67,12 @@ struct ContentView: View {
                                 }
                               
                             }
+                            .onChange(of: leftCurrency) {
+                                leftAmount = rightCurrency
+                                .convert(
+                                    _: rightAmount,
+                                    to: leftCurrency
+                                )                            }
                     }
                     
                     Image(systemName: "equal")
@@ -94,6 +103,7 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                             .multilineTextAlignment(.trailing)
                             .focused($rightTyping)
+                            .keyboardType(.decimalPad)
                             .onChange(of: rightAmount) {
                                 if rightTyping == true {
                                     leftAmount = rightCurrency
@@ -103,6 +113,13 @@ struct ContentView: View {
                                     )
                                 }
                                     
+                            }
+                            .onChange(of: rightCurrency) {
+                                rightAmount = leftCurrency
+                                    .convert(
+                                     leftAmount,
+                                        to: rightCurrency
+                                    )
                             }
 
                       
@@ -126,18 +143,19 @@ struct ContentView: View {
                             .foregroundStyle(.white)
                     }
                     .padding(.trailing)
-                    .sheet(isPresented: $showExchangeInfo) {
-                        ExchangeInfo()
-                    }
-                    .sheet(isPresented: $showSelectedCurrency){
-                        SelectCurrency(
-                            fromCurrency: $leftCurrency,
-                            toCurrency: $rightCurrency
-                        )
-                    }
                 }
             }
         }
+        .sheet(isPresented: $showExchangeInfo) {
+            ExchangeInfo()
+        }
+        .sheet(isPresented: $showSelectedCurrency){
+            SelectCurrency(
+                fromCurrency: $leftCurrency,
+                toCurrency: $rightCurrency
+            )
+        }
+
     }
 }
 
